@@ -12,12 +12,25 @@ const Feedback = ({onFeedbackClick}) => {
 }
 
 const Statistics = ({good, neutral, bad}) => {
+  const totalAmountOfFeedbacks = good + neutral + bad;
+
+  const calculateAverage = () => {
+    return good-bad == 0 ? 0 : (Math.abs(good - bad)) / (totalAmountOfFeedbacks)
+  }
+
+  const calculatePositive = () => {
+    return good < 1 ? 0 + '%' : good / totalAmountOfFeedbacks + '%';
+  }
+
   return (
     <>
       <h1>Statistics</h1>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
+      <div>Good: {good}</div>
+      <div>Neutral: {neutral}</div>
+      <div>Bad: {bad}</div>
+      <div>All: {totalAmountOfFeedbacks}</div>
+      <div>Average: {calculateAverage()}</div>
+      <div>Positive: {calculatePositive()}</div>
     </>
   )
 }
