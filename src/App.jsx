@@ -1,65 +1,53 @@
-const Header = (props) => {
-  return(
-    <h1>{props.course}</h1>
-  )
-}
+import { useState } from 'react'
 
-const Part = (props) => {
-  return(
-    <p>
-      {props.part.name} {props.part.exercises}
-    </p>
-  )
-}
-
-const Content = (props) => {
-  return(
-    <div>
-      {props.parts.map((part, index) => (
-        <Part key={index} part={part} />
-      ))}
-    </div>
-  )
-}
-
-const Total = (props) => {
-  let totalExercises = 0;
-
-  props.parts.forEach(part => {
-    totalExercises += part.exercises;
-  });
-
+const Feedback = ({onFeedbackClick}) => {
   return (
-    <p>Number of exercises {totalExercises}</p>
-  );
-};
+  <>
+    <h1>Give feedback</h1>
+    <button onClick={() => onFeedbackClick('good')}>good</button>
+    <button onClick={() => onFeedbackClick('neutral')}>neutral</button>
+    <button onClick={() => onFeedbackClick('bad')}>bad</button>
+  </>
+  )
+}
+
+const Statistics = ({good, neutral, bad}) => {
+  return (
+    <>
+      <h1>Statistics</h1>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+    </>
+  )
+}
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const onFeedbackClick = (type) => {
+    switch (type) {
+      case 'good':
+        setGood(good + 1);
+        break;
+      case 'neutral':
+        setNeutral(neutral + 1);
+        break;
+      case 'bad':
+        setBad(bad + 1);
+        break;
+    }
   }
 
   return (
     <div>
-      <Header course={course.name}/>
-      <Content parts={course.parts}/>
-      <Total parts={course.parts}/>
+      <Feedback onFeedbackClick={onFeedbackClick}/>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
 }
 
-export default App
+export default App;
