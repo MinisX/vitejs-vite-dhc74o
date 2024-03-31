@@ -27,18 +27,24 @@ const Statistics = ({good, neutral, bad}) => {
       <h1>Statistics</h1>
       {totalAmountOfFeedbacks === 0 
       ?
-      (<text>No feedback given</text>)
+      (<div>No feedback given</div>)
       : 
       (<>
-        <div>Good: {good}</div>
-        <div>Neutral: {neutral}</div>
-        <div>Bad: {bad}</div>
-        <div>All: {totalAmountOfFeedbacks}</div>
-        <div>Average: {calculateAverage()}</div>
-        <div>Positive: {calculatePositive()}</div>
+        <StatisticLine text='Good'value={good}/>
+        <StatisticLine text='Neutral'value={neutral}/>
+        <StatisticLine text='Bad'value={bad}/>
+        <StatisticLine text='All'value={totalAmountOfFeedbacks}/>
+        <StatisticLine text='Average'value={calculateAverage()}/>
+        <StatisticLine text='Positive'value={calculatePositive()}/>
       </>)
       }
     </>
+  )
+}
+
+const StatisticLine = ({text, value}) => {
+  return(
+    <div>{text}: {value}</div>
   )
 }
 
@@ -48,7 +54,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const onFeedbackClick = (type) => {
+  const addOneToState = (type) => {
     switch (type) {
       case 'good':
         setGood(good + 1);
@@ -64,7 +70,7 @@ const App = () => {
 
   return (
     <div>
-      <Feedback onFeedbackClick={onFeedbackClick}/>
+      <Feedback onFeedbackClick={addOneToState}/>
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
